@@ -1,6 +1,6 @@
 resource "aws_security_group" "eks-cluster" {
   name        = "${var.cluster-name}"
-  description = "K8s training cluster (Tom Oram)"
+  description = "Security group for the cluster"
   vpc_id      = "${aws_vpc.eks-cluster.id}"
 
   egress {
@@ -16,7 +16,7 @@ resource "aws_security_group" "eks-cluster" {
 }
 
 resource "aws_security_group" "eks-cluster-node" {
-  name        = "eks-${var.cluster-name}-node"
+  name        = "${var.cluster-name}-node"
   description = "Security group for all nodes in the cluster"
   vpc_id      = "${aws_vpc.eks-cluster.id}"
 
@@ -29,7 +29,7 @@ resource "aws_security_group" "eks-cluster-node" {
 
   tags = "${
     map(
-     "Name", "eks-${var.cluster-name}-node",
+     "Name", "${var.cluster-name}-node",
      "kubernetes.io/cluster/${var.cluster-name}", "owned",
     )
   }"
